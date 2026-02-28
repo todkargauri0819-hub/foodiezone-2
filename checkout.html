@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - FoodieZone</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #fff5f0; padding: 20px; color: #333; }
+    h1 { text-align: center; color: #ff6f61; }
+    .checkout-container { max-width: 500px; margin: auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    label { display: block; margin: 15px 0 5px; font-weight: bold; }
+    input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+    .total { font-size: 18px; font-weight: bold; margin: 20px 0; text-align: center; }
+    button { width: 100%; padding: 12px; background-color: #ff6f61; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 16px; }
+    button:hover { background-color: #e25b4f; }
+    .nav-links { text-align: center; margin-top: 20px; }
+    .nav-links a { margin: 0 10px; text-decoration: none; color: #ff6f61; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h1>💳 Checkout</h1>
+
+<div class="checkout-container">
+  <form id="checkoutForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name" required>
+
+    <label for="contact">Contact Number</label>
+    <input type="text" id="contact" placeholder="10-digit mobile number" required maxlength="10">
+
+    <div class="total">
+      Total Amount: ₹<span id="totalAmount">0</span>
+    </div>
+
+    <button type="submit">✅ Place Order</button>
+  </form>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">🏠 Home</a>
+  <a href="menu123.html">📋 Menu</a>
+  <a href="cart.html">🛒 Cart</a>
+</div>
+<script>
+let total = localStorage.getItem("cartTotal") || 0;
+document.getElementById("totalAmount").textContent = total;
+
+document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const contact = document.getElementById("contact").value.trim();
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+    if(cartItems.length===0){ alert("⚠️ Your cart is empty!"); return; }
+    if(parseInt(total)<=0){ alert("⚠️ Cannot place order with total ₹0."); return; }
+
+    const contactRegex = /^[0-9]{10}$/;
+    if(!contactRegex.test(contact)){ alert("⚠️ Enter valid 10-digit number."); return; }
+
+    const orderId = "FDZ" + Math.floor(100000 + Math.random()*900000);
+
+    localStorage.setItem("orderName", name);
+    localStorage.setItem("orderContact", contact);
+    localStorage.setItem("orderTotal", total);
+    localStorage.setItem("orderId", orderId);
+
+    // **Do not clear cart here**!
+    window.location.href='payment.html';
+});
+</script>
+
+
+</body>
+</html>

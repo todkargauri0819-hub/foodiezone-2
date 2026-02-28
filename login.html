@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - FoodieZone</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fff5f0;
+      margin: 0;
+    }
+    .login-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    h2 { color: #ff6f61; }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .links {
+      margin-top: 10px;
+    }
+    .links a {
+      text-decoration: none;
+      color: #28a745;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="loginBtn">Login</button>
+    <div class="links">
+      <p>Don’t have an account? <a href="signup.html">Sign Up</a></p>
+      <p><a href="index.html">🏠 Home</a></p>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      // Get stored credentials
+      const savedUser = localStorage.getItem("signupUser");
+      const savedPass = localStorage.getItem("signupPass");
+
+      if(user === savedUser && pass === savedPass){
+        alert("✅ Logged in as " + user);
+        window.location.href = "index.html";
+      } else {
+        alert("❌ Invalid username or password. Please sign up first.");
+      }
+    }
+  </script>
+
+<script>
+document.getElementById('loginBtn').addEventListener('click', async function(e){
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const savedUser = localStorage.getItem("signupUser");
+    const savedPass = localStorage.getItem("signupPass");
+
+    const fd = new FormData();
+    fd.append('username', username);
+    fd.append('password', password);
+    const res = await fetch('/api/login', {method:'POST', body: fd});
+    const j = await res.json();
+    if(res.ok){ localStorage.setItem('userId', 'logged'); alert('Login success'); window.location.href='index.html'; }
+    else alert(j.error || 'Login failed');
+});
+</script>
+
+
+<script>
+document.getElementById('loginBtn').addEventListener('click', async function(e){
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const fd = new FormData();
+    fd.append('username', username);
+    fd.append('password', password);
+    const res = await fetch('/api/login', {method:'POST', body: fd});
+    const j = await res.json();
+    if(res.ok){ alert('Login success'); window.location.href='index.html'; }
+    else {
+        alert(j.error || 'Login failed');
+    }
+});
+</script>
+
+</body>
+</html>

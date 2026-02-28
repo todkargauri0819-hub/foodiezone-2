@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Cart - FoodieZone</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #fff5f0;
+      padding: 30px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #ff6f61;
+    }
+    .cart-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #ff6f61;
+      color: white;
+    }
+    .remove-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .total {
+      text-align: right;
+      font-size: 18px;
+      margin-top: 15px;
+    }
+    .checkout-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto 0;
+    }
+    .nav-links {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .nav-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6f61;
+      font-weight: bold;
+    }
+    /* --- Added for coupon UI --- */
+    .coupon-section {
+      text-align: right;
+      margin-top: 15px;
+    }
+    .coupon-section input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .coupon-section button {
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .discount-info {
+      text-align: right;
+      color: green;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🛒 My Cart</h1>
+
+<div class="cart-container">
+  <table id="cart-table">
+    <thead>
+      <tr>
+        <th>Dish</th>
+        <th>Vendor</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="total">
+    <strong>Total:</strong> ₹<span id="cart-total">0</span>
+  </div>
+
+  <!-- ✅ Coupon Section Added -->
+  <div class="coupon-section">
+    <input type="text" id="couponInput" placeholder="Enter coupon code">
+    <button onclick="applyCoupon()">Apply</button>
+  </div>
+  <div id="discountInfo" class="discount-info"></div>
+
+  <button id="proceedCheckoutBtn">Proceed to Checkout</button>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">🏠 Home</a>
+  <a href="menu123.html">🍔 Menu</a>
+</div>
+<script>
+let discountApplied = 0;
+let finalTotal = 0;
+
+function loadCart() {
+  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  let tbody = document.querySelector("#cart-table tbody");
+  tbody.innerHTML = "";
+
+  let total = 0;
+  cart.forEach((item, index) => {
+    let subtotal = item.price * item.qty;
+    total += subtotal;
+    tbody.innerHTML += `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.vendor}</td>
+        <td>₹${item.price}</td>
+        <td>${item.qty}</td>
+        <td>₹${subtotal}</td>
+        <td><button class="remove-btn" onclick="removeItem(${index})">❌ Remove</button></td>
+      </tr>
+    `;
+  });
+
+  finalTotal = Math.max(total - discountApplied, 0);
+  document.getElementById("cart-total").textContent = finalTotal;
+  localStorage.setItem("cartTotal", finalTotal);
+}
+
+function removeItem(index) {
+  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  cart.splice(index, 1); 
+  localStorage.setItem("cartItems", JSON.stringify(cart));
+  discountApplied = 0;
+  document.getElementById("discountInfo").innerHTML = "";
+  loadCart();
+}
+
+function applyCoupon() {
+  let code = document.getElementById("couponInput").value.trim().toUpperCase();
+  let total = 0;
+  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  cart.forEach(item => total += item.price * item.qty);
+
+  let message = "";
+  if (code === "FOODIE10") { discountApplied = total * 0.10; message = "🎉 FOODIE10 applied! 10% off."; }
+  else if (code === "DELIGHT50") { discountApplied = 50; message = "🎉 DELIGHT50 applied! ₹50 off."; }
+  else { discountApplied = 0; message = "❌ Invalid coupon code."; }
+
+  finalTotal = Math.max(total - discountApplied, 0);
+  document.getElementById("cart-total").textContent = finalTotal;
+  document.getElementById("discountInfo").innerHTML = message;
+  localStorage.setItem("cartTotal", finalTotal);
+}
+
+loadCart();
+
+document.getElementById('proceedCheckoutBtn').addEventListener('click', function(){
+    const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    if(cart.length===0){ alert("⚠️ Your cart is empty!"); return; }
+    window.location.href='checkout.html';
+});
+</script>
+
+
+</body>
+</html>

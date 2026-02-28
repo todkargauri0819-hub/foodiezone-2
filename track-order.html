@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Track Order - FoodieZone</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff5f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .tracker-box {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .tracker-box h2 {
+      margin-bottom: 20px;
+      color: #ff6f61;
+    }
+
+    .tracker-box input {
+      padding: 10px;
+      width: 80%;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .tracker-box button {
+      padding: 10px 20px;
+      background: #ff6f61;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .tracker-box button:hover {
+      background: #e55b4d;
+    }
+
+    .status-message {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="tracker-box">
+  <h2>🔍 Track Your Order</h2>
+  <input type="text" id="order-id" placeholder="Enter your Order ID (e.g., FDZ123456)">
+  <br>
+  <button onclick="trackOrder()">Check Status</button>
+  <div class="status-message" id="status-msg"></div>
+</div>
+
+<script>
+  function trackOrder() {
+    const enteredId = document.getElementById("order-id").value.trim();
+    const ordersDetails = JSON.parse(localStorage.getItem("ordersDetails")) || [];
+    const statusDiv = document.getElementById("status-msg");
+
+    if (enteredId === "") {
+      statusDiv.innerText = "⚠️ Please enter an Order ID.";
+      statusDiv.style.color = "orange";
+      return;
+    }
+
+    // Find the order in saved orders
+    const foundOrder = ordersDetails.find(order => order.id === enteredId);
+
+    if (foundOrder) {
+      statusDiv.innerHTML = `
+        ✅ Order <b>${foundOrder.id}</b> found!<br>
+        <strong>Status:</strong> ${foundOrder.status}<br>
+        <strong>Total:</strong> ₹${foundOrder.total}<br>
+        <strong>Payment:</strong> ${foundOrder.payment}
+      `;
+      statusDiv.style.color = "green";
+    } else {
+      statusDiv.innerText = "❌ Order ID not found. Please check and try again.";
+      statusDiv.style.color = "red";
+    }
+  }
+</script>
+
+</body>
+</html>

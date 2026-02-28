@@ -1,0 +1,90 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Success - FoodieZone</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #fff5f0;
+      padding: 40px;
+      color: #333;
+      text-align: center;
+    }
+    h1 {
+      color: #28a745;
+    }
+    .success-box {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .order-details {
+      margin-top: 20px;
+      font-size: 18px;
+      text-align: left;
+    }
+    .order-details p {
+      margin: 8px 0;
+    }
+    .nav-links {
+      margin-top: 20px;
+    }
+    .nav-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6f61;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎉 Order Placed Successfully!</h1>
+
+<div class="success-box">
+  <p>Thank you for ordering with <strong>FoodieZone</strong>!</p>
+
+  <div class="order-details">
+    <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+    <p><strong>Total Amount:</strong> ₹<span id="orderTotal"></span></p>
+    <p><strong>Payment Method:</strong> <span id="orderPayment"></span></p>
+    <p id="maskedCard" style="display:none;"><strong>Card:</strong> <span id="cardMasked"></span></p>
+    <p><strong>Status:</strong> <span id="orderStatus">Pending</span></p>
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">🏠 Home</a>
+  <a href="menu123.html">🍔 Menu</a>
+  <a href="cart.html">🛒 Cart</a>
+  <a href="track-order.html">📦 Track Order</a>
+  <a href="my-orders.html">📑 My Orders</a>
+</div>
+
+<script>
+let orders = JSON.parse(localStorage.getItem("ordersDetails") || "[]");
+let lastOrder = orders[orders.length-1];
+
+if(lastOrder){
+    document.getElementById("orderId").textContent = lastOrder.id;
+    document.getElementById("orderTotal").textContent = lastOrder.total;
+    document.getElementById("orderPayment").textContent = lastOrder.payment;
+
+    if(lastOrder.payment==="Card" && localStorage.getItem("cardNumber")){
+        let card = localStorage.getItem("cardNumber");
+        document.getElementById("cardMasked").textContent = "**** **** **** " + card.slice(-4);
+        document.getElementById("maskedCard").style.display = "block";
+    }
+
+    document.getElementById("orderStatus").textContent = lastOrder.status;
+}
+</script>
+
+
+</body>
+</html>

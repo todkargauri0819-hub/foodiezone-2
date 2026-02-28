@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FoodieZone - Online Food Ordering</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+/* -------------------- Body & Background -------------------- */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #ffe3e3, #ffc9de, #ffe3e3);
+    background-size: 200% 200%;
+    animation: bgMove 10s infinite alternate ease-in-out;
+    color: #333;
+    overflow-x: hidden;
+}
+@keyframes bgMove { 0% { background-position: left top; } 100% { background-position: right bottom; } }
+
+/* -------------------- Header -------------------- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: linear-gradient(90deg,#ff6f61,#ff6f61, #ff6f61 );
+    background-size: 200% 200%;
+    animation: headerFlow 6s infinite alternate ease-in-out;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    position: relative;
+    z-index: 10;
+}
+@keyframes headerFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+header h1 { margin: 0; font-size: 36px; text-align: center; flex:1; }
+
+/* -------------------- Top Nav -------------------- */
+.top-nav-left { display: flex; align-items: center; gap: 10px; position: relative; flex-wrap: wrap; }
+.top-nav-left a { text-decoration: none; background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 8px; font-weight: 600; font-size: 14px; transition: 0.3s ease; }
+.top-nav-left a:hover { background-color: rgba(255,255,255,0.35); transform: scale(1.05); }
+
+/* -------------------- Profile Circle & Dropdown -------------------- */
+#accountCircle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff6f61, #ff9671);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+#accountCircle img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+#profileMenu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    color: #ff6f61;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    min-width: 150px;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+}
+#profileMenu a { padding: 12px 20px; text-decoration: none; color: #ff6f61; display:block; transition:0.2s; }
+#profileMenu a:hover { background: rgba(255,111,97,0.1); }
+
+/* -------------------- Logout Button -------------------- */
+#logoutBtn { display: none; margin-left: auto; background: linear-gradient(135deg,#ff6f61,#ff9671); color: white; padding: 8px 15px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; }
+#logoutBtn:hover { opacity:0.9; transform:scale(1.05); }
+
+/* -------------------- Offer Line -------------------- */
+.offer-line { width: 80%; margin: 20px auto; background: linear-gradient(90deg, #ff9671, #ff6f61, #ff9671); color: white; font-weight: bold; text-align: center; padding: 10px 0; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); overflow: hidden; white-space: nowrap; font-size: 18px; }
+.offer-line span { display: inline-block; padding-left: 100%; animation: moveText 15s linear infinite; }
+@keyframes moveText { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+/* -------------------- Video Container -------------------- */
+.video-container { position: relative; max-width: 1000px; margin: 50px auto; border-radius: 20px; overflow: hidden; box-shadow: 0 0 25px rgba(255,111,97,0.3); }
+.video-container video { width: 100%; height: auto; display: block; }
+.video-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; gap: 20px; justify-content: center; }
+.video-overlay button { background: rgba(255,255,255,0.2); color:white; padding:12px 25px; border-radius:10px; font-size:18px; font-weight:600; border:2px solid white; cursor:pointer; transition:all 0.3s ease; }
+.video-overlay button:hover { background: rgba(255,255,255,0.35); transform:scale(1.05); }
+
+.welcome-msg { text-align:center; font-size:26px; margin-top:20px; color:#222; font-weight:600; letter-spacing:0.5px; }
+.quote { text-align:center; font-style:italic; margin:20px auto; font-size:22px; color:#555; max-width:800px; background: rgba(255,255,255,0.6); padding:15px 25px; border-radius:20px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+
+/* -------------------- Sections & Cards -------------------- */
+.section { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-in-out; background: rgba(255,255,255,0.95); margin: 70px auto; padding: 50px 40px; border-radius: 20px; max-width: 1000px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+.section.visible { opacity: 1; transform: translateY(0); }
+.cards-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+.cards-container .card { background: white; padding: 25px; border-radius: 20px; margin: 15px 0; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; width: 280px; text-align: center; }
+.cards-container .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+
+/* -------------------- Forms -------------------- */
+form { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+input, textarea { padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Poppins', sans-serif; font-size: 16px; }
+button { background: linear-gradient(90deg, #ff6f61,  #ff6f61); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 16px; }
+button:hover { opacity: 0.9; }
+
+/* -------------------- Ratings -------------------- */
+.stars { text-align: center; font-size: 22px; color: gold; }
+
+/* -------------------- Footer -------------------- */
+footer { text-align:center; padding:25px; background: linear-gradient(90deg, #ff6f61, #ff9671); color:white; font-weight:500; border-top-left-radius:40px; border-top-right-radius:40px; margin-top:80px; }
+
+/* -------------------- Feedback Popup -------------------- */
+#feedbackPopup { display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background: #ff6f61; color: white; padding: 20px 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); z-index: 1000; font-weight: 600; text-align: center; }
+
+/* -------------------- Media -------------------- */
+@media(max-width:768px){
+    header h1 { font-size:28px; }
+    .video-overlay button { font-size:16px; padding:10px 20px; }
+    #profileMenu { right:auto; left:0; }
+    .cards-container { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="top-nav-left">
+        <div id="accountCircle"></div>
+        <a href="login.html" class="loginLink">Login</a>
+        <a href="signup.html" class="loginLink">Signup</a>
+        <a href="admin.html">Admin</a>
+        <a href="menu123.html">Menu</a>
+        <a href="cart.html">Cart</a>
+        <a href="my-orders.html">My Orders</a>
+        <button id="logoutBtn">Logout</button>
+        <div id="profileMenu">
+            <a href="#">Profile</a>
+            <a href="my-orders.html">Orders</a>
+        </div>  
+    </div>
+    <h1>🍽️ FoodieZone</h1>
+</header>
+
+<div class="offer-line"><span>🎉 Special Offer: Use code FOODIE10 to get 10% OFF your first order and enjoy fast 30 min delivery ! 🍔🍕</span></div>
+
+<div class="video-container">
+    <video autoplay muted loop>
+        <source src="/static/videos/foodiezone.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay">
+        <button onclick="document.querySelector('.quote').scrollIntoView({behavior:'smooth'})">View Quote</button>
+        <button onclick="window.location.href='menu123.html'">Order Now</button>
+    </div>
+</div>
+
+<div class="welcome-msg">
+    Welcome to FoodieZone! Browse our delicious menu and compare prices from your favorite restaurants.
+</div>
+<div class="quote">
+    “We don’t just serve food — we serve value.” 🍴
+</div>
+
+<div class="section">
+    <h2>✅ Verified & Trusted Website</h2>
+    <div class="cards-container">
+        <div class="card"><p>FoodieZone is a 100% verified and secure online food ordering platform.</p></div>
+        <div class="card"><p>Trusted by thousands of happy customers daily! ⭐️⭐️⭐️⭐️⭐️ (4.9/5)</p></div>
+    </div>
+</div>
+
+<div class="section" id="about">
+    <h2>About Us</h2>
+    <div class="cards-container">
+        <div class="card"><p>At FoodieZone, we bring deliciousness to your doorstep. Our mission is to connect food lovers with the best restaurants and unbeatable deals. Fresh, fast, and reliable — that’s our promise!</p></div>
+        <div class="card"><p>Our platform compares prices, highlights offers, and ensures you get the best food experience every time!</p></div>
+    </div>
+</div>
+
+<div class="section" id="contact">
+    <h2>Contact Us</h2>
+    <div class="cards-container">
+        <div class="card"><p>📞 +91 98765 43210</p><p>✉️ support@foodiezone.com</p></div>
+        <div class="card"><p>Follow us on Instagram & Facebook for the latest offers!</p></div>
+    </div>
+</div>
+
+<div class="section" id="feedback">
+    <h2>Feedback</h2>
+    <div class="cards-container">
+        <div class="card">
+             <!-- ✅ Fixed: Added id="feedbackForm" -->
+             <form id="feedbackForm" action="/submit_feedback" method="POST">
+                 <input type="text" name="name" placeholder="Your Name" required><br>
+                 <input type="email" name="email" placeholder="Your Email" required><br>
+                 <textarea name="message" placeholder="Your Feedback" required></textarea><br>
+                 <button type="submit">Send Feedback</button>
+             </form>
+        </div>
+    </div>
+</div>
+
+<div id="feedbackPopup">✅ Feedback Sent Successfully!</div>
+
+<div class="section" id="query">
+    <h2>Have a Query?</h2>
+    <div class="cards-container">
+        <div class="card">
+           <form action="/submit_query" method="POST">
+               <input type="text" name="name" placeholder="Your Name" required><br>
+               <input type="email" name="email" placeholder="Your Email" required><br>
+               <input type="text" name="subject" placeholder="Subject" required><br>
+               <textarea name="message" placeholder="Your Query" required></textarea><br>
+               <button type="submit">Send Query</button>
+           </form>
+        </div>
+    </div>
+</div>
+
+
+<footer>© 2025 FoodieZone. All Rights Reserved.</footer>
+
+<script>
+window.onload = function() {
+    const savedUser = localStorage.getItem("signupUser");
+    const savedImg = localStorage.getItem("signupImg");
+    const accountCircle = document.getElementById("accountCircle");
+    const loginLinks = document.querySelectorAll(".loginLink");
+    const profileMenu = document.getElementById("profileMenu");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if(savedUser) {
+        loginLinks.forEach(el => el.style.display = "none");
+        accountCircle.style.display = "flex";
+        logoutBtn.style.display = "inline-flex";
+
+        if(savedImg){ accountCircle.innerHTML = `<img src="${savedImg}" alt="Profile">`; }
+        else { accountCircle.textContent = savedUser.charAt(0).toUpperCase(); }
+            accountCircle.onclick = () => { profileMenu.style.display = profileMenu.style.display === "flex" ? "none" : "flex"; }
+    } else {
+        accountCircle.style.display = "none";
+        logoutBtn.style.display = "none";
+    }
+
+    logoutBtn.onclick = () => {
+        localStorage.removeItem("signupUser");
+        localStorage.removeItem("signupPass");
+        localStorage.removeItem("signupImg");
+        alert("🚪 You have been logged out.");
+        location.reload();
+    }
+
+    document.addEventListener('click', function(e){
+        if(!accountCircle.contains(e.target) && !profileMenu.contains(e.target)){
+            profileMenu.style.display = 'none';
+        }
+    });
+
+    // ✅ Fixed feedback form listener
+    const feedbackForm = document.getElementById("feedbackForm");
+    if(feedbackForm){
+        feedbackForm.addEventListener("submit", async function(e){
+            e.preventDefault();
+            const formData = new FormData(feedbackForm);
+            const res = await fetch("/submit_feedback", { method: "POST", body: formData });
+            if(res.ok){
+                document.getElementById("feedbackPopup").style.display = "block";
+                setTimeout(()=>{ document.getElementById("feedbackPopup").style.display = "none"; }, 2500);
+                feedbackForm.reset();
+            }
+        });
+    }
+
+    // ✅ Query form safe check
+    const queryForm = document.querySelector("#query form");
+    if(queryForm){
+        queryForm.addEventListener("submit", async function(e){
+            e.preventDefault();
+            const formData = new FormData(queryForm);
+            const res = await fetch("/submit_query", { method: "POST", body: formData });
+            if(res.ok){
+                alert("✅ Query sent successfully!");
+                queryForm.reset();
+            }
+        });
+    }
+
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.2 });
+    sections.forEach(section => observer.observe(section));
+}
+</script>
+
+</body>
+</html>

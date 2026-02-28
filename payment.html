@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment - FoodieZone</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin:0; background-color:#fff5f0; padding:20px; color:#333; }
+    h1 { text-align:center; color:#ff6f61; }
+    .payment-container { max-width:500px; margin:auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+    label { display:block; margin:15px 0 5px; font-weight:bold; }
+    select,input { width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; }
+    .hidden { display:none; }
+    .total { font-size:18px; font-weight:bold; margin:20px 0; text-align:center; }
+    button { width:100%; padding:12px; background-color:#28a745; color:white; border:none; border-radius:25px; cursor:pointer; font-size:16px; }
+    button:hover { background-color:#218838; }
+    .nav-links { text-align:center; margin-top:20px; }
+    .nav-links a { margin:0 10px; text-decoration:none; color:#ff6f61; font-weight:bold; }
+  </style>
+</head>
+<body>
+
+<h1>💳 Payment</h1>
+
+<div class="payment-container">
+  <form id="paymentForm">
+    <label for="method">Select Payment Method</label>
+    <select id="method" required>
+      <option value="">--Choose--</option>
+      <option value="UPI">UPI</option>
+      <option value="Card">Credit/Debit Card</option>
+      <option value="COD">Cash on Delivery</option>
+    </select>
+
+    <div id="upiSection" class="hidden">
+      <label for="upiId">Enter UPI ID</label>
+      <input type="text" id="upiId" placeholder="example@upi">
+    </div>
+
+    <div id="cardSection" class="hidden">
+      <label for="cardNumber">Card Number</label>
+      <input type="text" id="cardNumber" placeholder="16-digit card number" maxlength="16">
+      <label for="expiry">Expiry Date (MM/YY)</label>
+      <input type="text" id="expiry" placeholder="MM/YY" maxlength="5">
+      <label for="cvv">CVV</label>
+      <input type="password" id="cvv" placeholder="3-digit CVV" maxlength="3">
+    </div>
+
+    <div class="total">
+      Payable Amount: ₹<span id="payAmount">0</span>
+    </div>
+
+    <button type="submit">✅ Pay & Confirm Order</button>
+  </form>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">🏠 Home</a>
+  <a href="menu123.html">📋 Menu</a>
+  <a href="cart.html">🛒 Cart</a>
+  <a href="checkout.html">💳 Checkout</a>
+</div>
+
+<script>
+let total = localStorage.getItem("orderTotal") || localStorage.getItem("cartTotal") || 0;
+document.getElementById("payAmount").textContent = total;
+
+const methodSelect = document.getElementById("method");
+const upiSection = document.getElementById("upiSection");
+const cardSection = document.getElementById("cardSection");
+
+methodSelect.addEventListener("change", function(){
+    upiSection.classList.add("hidden");
+    cardSection.classList.add("hidden");
+    if(this.value==="UPI") upiSection.classList.remove("hidden");
+    else if(this.value==="Card") cardSection.classList.remove("hidden");
+});
+
+document.getElementById("paymentForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    if(cartItems.length===0){ alert("⚠️ Your cart is empty!"); return; }
+
+    const method = methodSelect.value;
+    if(!method){ alert("⚠️ Select a payment method."); return; }
+
+    if(method==="UPI"){
+        let upiId = document.getElementById("upiId").value.trim();
+        if(!upiId.includes("@")){ alert("⚠️ Enter valid UPI ID."); return; }
+    }
+
+    if(method==="Card"){
+        let cardNumber = document.getElementById("cardNumber").value.trim();
+        let expiry = document.getElementById("expiry").value.trim();
+        let cvv = document.getElementById("cvv").value.trim();
+        if(!/^\d{16}$/.test(cardNumber)){ alert("⚠️ Invalid card number."); return; }
+        if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)){ alert("⚠️ Invalid expiry."); return; }
+        if(!/^\d{3}$/.test(cvv)){ alert("⚠️ Invalid CVV."); return; }
+        localStorage.setItem("cardNumber", cardNumber);
+    }
+
+    localStorage.setItem("orderPayment", method);
+
+    let orders = JSON.parse(localStorage.getItem("ordersDetails") || "[]");
+    orders.push({
+        id: localStorage.getItem("orderId") || "FDZ" + Date.now(),
+        items: cartItems,
+        total: total,
+        payment: method,
+        status: "Pending",
+        name: localStorage.getItem("orderName") || "Guest",
+        contact: localStorage.getItem("orderContact") || ""
+    });
+    localStorage.setItem("ordersDetails", JSON.stringify(orders));
+
+    localStorage.removeItem("cartItems");
+    localStorage.removeItem("cartTotal");
+
+    alert("✅ Payment successful!");
+    window.location.href='order-success.html';
+});
+</script>
+
+</body>
+</html>  

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Queries</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background-color: #ff4b2b; color: white; }
+  </style>
+</head>
+<body>
+  <h2>All Queries</h2>
+  <table>
+    <tr>
+      <th>ID</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th>
+    </tr>
+    {% for q in queries %}
+    <tr>
+      <td>{{ q[0] }}</td>
+      <td>{{ q[1] }}</td>
+      <td>{{ q[2] }}</td>
+      <td>{{ q[3] }}</td>
+      <td>{{ q[4] }}</td>
+      <td>{{ q[5] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

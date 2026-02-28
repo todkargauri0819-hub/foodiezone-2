@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu - FoodieZone</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff5f0;
+      color: #333;
+    }
+    header {
+      background-color: #ff6f61;
+      padding: 30px 0;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 40px;
+    }
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 40px;
+    }
+    .menu-item {
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
+    }
+    .menu-item:hover { transform: scale(1.02); }
+    .menu-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .menu-details { padding: 20px; }
+    .menu-details h3 {
+      margin-top: 0;
+      color: #ff6f61;
+    }
+    .menu-details p { font-size: 14px; color: #555; }
+    .prices { margin-top: 10px; }
+    .price-row { margin: 5px 0; }
+    .price-tag {
+      background-color: #ffe3e3;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-right: 10px;
+      font-size: 12px;
+      display: inline-block;
+    }
+    .best-deal {
+      background-color: #c8e6c9 !important;
+      color: #2e7d32 !important;
+      font-weight: bold;
+    }
+    .add-btn {
+      background-color: #ff6f61;
+      color: white;
+      padding: 5px 12px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: 0.3s;
+    }
+    .add-btn:hover { background-color: #e25b4f; }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #ff6f61;
+      color: white;
+      margin-top: 40px;
+    }
+    .cart-link, .index-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #ff6f61;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+    }
+    .cart-link:hover, .index-link:hover { background: #e25b4f; }
+
+    /* Search + Filter Bar */
+    .filter-bar { text-align: center; margin: 20px 0; }
+    .filter-bar input {
+      padding: 10px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      margin-right: 10px;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #ff6f61;
+      color: white;
+      font-size: 14px;
+    }
+    .filter-btn:hover { background: #e25b4f; }
+    .filter-btn.active { background: #2e7d32; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📋 Our Delicious Menu</h1>
+  <p>Compare prices and order from your favorite restaurant</p>
+  <a href="cart.html" class="cart-link">🛒 Go to Cart</a>
+  <a href="index.html" class="index-link">🏠 back to Home</a>
+</header>
+
+<!-- 🔎 Search + Category Filter -->
+<div class="filter-bar">
+  <input type="text" id="searchBar" placeholder="Search for dishes...">
+  <button class="filter-btn active" data-category="all">All</button>
+  <button class="filter-btn" data-category="Usa">Usa</button>
+  <button class="filter-btn" data-category="Italian">Italian </button>
+  <button class="filter-btn" data-category="Indian">Indian</button>
+  <button class="filter-btn" data-category="Mexicon">Mexicon</button>
+  <button class="filter-btn" data-category="Japanese">Japanese</button>
+  <button class="filter-btn" data-category="China">China</button>
+  <button class="filter-btn" data-category="Indian fastfood">Indian fastfood</button>  
+</div>
+
+<div class="menu-container">
+  <!-- Pizza -->
+  <div class="menu-item" data-category="Indian fastfood">
+    <img src="https://images.pexels.com/photos/367915/pexels-photo-367915.jpeg" alt="Pizza">
+    <div class="menu-details">
+      <h3>Cheese Burst Pizza</h3>
+      <p>Loaded with cheese, tomato sauce and herbs.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Domino's: ₹249</span> <button class="add-btn" data-price="Domino's: ₹249">Add</button></div>
+        <div class="price-row"><span class="price-tag">Pizza Hut: ₹229</span> <button class="add-btn" data-price="Pizza Hut: ₹229">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹239</span> <button class="add-btn" data-price="FoodKart: ₹239">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹219</span> <button class="add-btn" data-price="EatMore: ₹219">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🍗 Chicken Pizza -->
+  <div class="menu-item" data-category="Indian fastfood">
+    <img src="\static\images\chickenpizza.jpg" alt="Chicken Pizza">
+    <div class="menu-details">
+      <h3>Chicken Pizza</h3>
+      <p>Spicy chicken toppings with extra cheese.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Domino's: ₹299</span> <button class="add-btn" data-price="Domino's: ₹299">Add</button></div>
+        <div class="price-row"><span class="price-tag">Pizza Hut: ₹289</span> <button class="add-btn" data-price="Pizza Hut: ₹289">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹279</span> <button class="add-btn" data-price="EatMore: ₹279">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🍝 Pizza Pasta -->
+  <div class="menu-item" data-category="Indian fastfood">
+    <img src="\static\images\pizzapasta.jpg" alt="Pizza Pasta">
+    <div class="menu-details">
+      <h3>Pizza Pasta</h3>
+      <p>Fusion of cheesy pizza and creamy pasta.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Domino's: ₹259</span> <button class="add-btn" data-price="Domino's: ₹259">Add</button></div>
+        <div class="price-row"><span class="price-tag">Pizza Hut: ₹249</span> <button class="add-btn" data-price="Pizza Hut: ₹249">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹239</span> <button class="add-btn" data-price="FoodKart: ₹239">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Burger -->
+  <div class="menu-item" data-category="Indian fastfood">
+    <img src="https://images.pexels.com/photos/1639562/pexels-photo-1639562.jpeg" alt="Burger">
+    <div class="menu-details">
+      <h3>Veggie Burger</h3>
+      <p>Freshly grilled veggie patty with sauces.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Burger King: ₹149</span> <button class="add-btn" data-price="Burger King: ₹149">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹129</span> <button class="add-btn" data-price="McDonald's: ₹129">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹139</span> <button class="add-btn" data-price="FoodKart: ₹139">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹119</span> <button class="add-btn" data-price="EatMore: ₹119">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pasta -->
+  <div class="menu-item" data-category="Italian">
+    <img src="https://images.pexels.com/photos/5419336/pexels-photo-5419336.jpeg" alt="Pasta">
+    <div class="menu-details">
+      <h3>Italian Pasta</h3>
+      <p>Creamy white sauce pasta with veggies.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Pasta Hub: ₹199</span> <button class="add-btn" data-price="Pasta Hub: ₹199">Add</button></div>
+        <div class="price-row"><span class="price-tag">Domino's: ₹189</span> <button class="add-btn" data-price="Domino's: ₹189">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹179</span> <button class="add-btn" data-price="FoodKart: ₹179">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹159</span> <button class="add-btn" data-price="EatMore: ₹159">Add</button></div>
+      </div>
+    </div>
+  </div>
+   <!-- Chicken Biryani -->
+  <div class="menu-item" data-category="Indian">
+    <img src="\static\images\chickenbiryani.jpg" alt="Chicken Biryani">
+    <div class="menu-details">
+      <h3>Chicken Biryani</h3>
+      <p>Authentic biryani with rich spices.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Biryani House: ₹249</span> <button class="add-btn" data-price="Biryani House: ₹349">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹239</span> <button class="add-btn" data-price="FoodKart: ₹339">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹229</span> <button class="add-btn" data-price="EatMore: ₹329">Add</button></div>
+        <div class="price-row"><span class="price-tag">Zaika House: ₹219</span> <button class="add-btn" data-price="Zaika House: ₹319">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- italian noodles -->
+  <div class="menu-item" data-category="Italian">
+    <img src="\static\images\italiangarlicnoodles.jpg" alt="italian noodles">
+    <div class="menu-details">
+      <h3>Italian Noodles</h3>
+      <p>spicy and veg loaded noodles.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Pasta Hub: ₹299</span> <button class="add-btn" data-price="Noodles Hub: ₹299">Add</button></div>
+        <div class="price-row"><span class="price-tag">Domino's: ₹289</span> <button class="add-btn" data-price="Domino's: ₹289">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹279</span> <button class="add-btn" data-price="FoodKart: ₹279">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹259</span> <button class="add-btn" data-price="EatMore: ₹259">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Biryani -->
+  <div class="menu-item" data-category="Indian">
+    <img src="https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg" alt="Biryani">
+    <div class="menu-details">
+      <h3>Hyderabadi Biryani</h3>
+      <p>Authentic biryani with rich spices.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Biryani House: ₹249</span> <button class="add-btn" data-price="Biryani House: ₹249">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹239</span> <button class="add-btn" data-price="FoodKart: ₹239">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹229</span> <button class="add-btn" data-price="EatMore: ₹229">Add</button></div>
+        <div class="price-row"><span class="price-tag">Zaika House: ₹219</span> <button class="add-btn" data-price="Zaika House: ₹219">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chocolate Shake -->
+  <div class="menu-item" data-category="Indian fastfood">
+    <img src="https://images.pexels.com/photos/12698358/pexels-photo-12698358.jpeg" alt="Chocolate Shake">
+    <div class="menu-details">
+      <h3>Chocolate Shake</h3>
+      <p>Cold creamy chocolate milkshake with ice cream.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Shake King: ₹129</span> <button class="add-btn" data-price="Shake King: ₹129">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹119</span> <button class="add-btn" data-price="FoodKart: ₹119">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹109</span> <button class="add-btn" data-price="EatMore: ₹109">Add</button></div>
+        <div class="price-row"><span class="price-tag">Cool Shakes: ₹99</span> <button class="add-btn" data-price="Cool Shakes: ₹99">Add</button></div>
+      </div>
+    </div>
+  </div>
+   <!-- Oreo Shake -->
+  <div class="menu-item" data-category="Indian fastfood">
+    <img src="\static\images\oreoshake.jpg" alt="Oreo Shake">
+    <div class="menu-details">
+      <h3>Oreo Shake</h3>
+      <p>Cold oreo and chocolate mix shake.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Shake King: ₹139</span> <button class="add-btn" data-price="Shake King: ₹139">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKart: ₹139</span> <button class="add-btn" data-price="FoodKart: ₹139">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMore: ₹129</span> <button class="add-btn" data-price="EatMore: ₹129">Add</button></div>
+        <div class="price-row"><span class="price-tag">Cool Shakes: ₹119</span> <button class="add-btn" data-price="Cool Shakes: ₹119">Add</button></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="menu-item" data-category="Japanese">
+    <img src="\static\images\sushi.jpg" alt="Sushi">
+    <div class="menu-details">
+      <h3>Sushi</h3>
+      <p>Freshly grilled veggie patty with sauces.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item" data-category="Japanese">
+    <img src="\static\images\ramen.jpg" alt="ramen">
+    <div class="menu-details">
+      <h3>Ramen</h3>
+      <p></p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item" data-category="Japanese">
+    <img src="\static\images\okonomiyaki.jpg" alt="okonomiyaki">
+    <div class="menu-details">
+      <h3>okonomiyaki</h3>
+      <p>Freshly grilled veggie patty with sauces.</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item" data-category="Japanese">
+    <img src="\static\images\mochi.jpg" alt="mochi">
+    <div class="menu-details">
+      <h3>mochi</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item" data-category="Mexicon">
+    <img src="\static\images\tacos.jpg" alt="tacos">
+    <div class="menu-details">
+      <h3>tacos</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Mexicon">
+    <img src="\static\images\enchiladas.jpg" alt="enchiladas">
+    <div class="menu-details">
+      <h3>enchiladas</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Mexicon">
+    <img src="\static\images\tamales.jpg" alt="tamales">
+    <div class="menu-details">
+      <h3>tamales</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Mexicon">
+    <img src="\static\images\guacamole.jpg" alt="guacamole">
+    <div class="menu-details">
+      <h3>guacamole</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Mexicon">
+    <img src="\static\images\churros.jpg" alt="churros">
+    <div class="menu-details">
+      <h3>churros</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Usa">
+    <img src="\static\images\hamburger.jpg" alt="hamburger">
+    <div class="menu-details">
+      <h3>hamburger</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Usa">
+    <img src="\static\images\hotdog.jpg" alt="hotdog">
+    <div class="menu-details">
+      <h3>hotdog</h3>
+      <p>fresh food with chicken</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Usa">
+    <img src="\static\images\friedchicken.jpg" alt="friedchicken">
+    <div class="menu-details">
+      <h3>friedchicken</h3>
+      <p>fresh food with fresh chicken</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Usa">
+    <img src="\static\images\bbqribs.jpg" alt="bbqribs">
+    <div class="menu-details">
+      <h3>bbqribs</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Usa">
+    <img src="\static\images\applepies.jpg" alt="applepies">
+    <div class="menu-details">
+      <h3>applepies</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="China">
+    <img src="\static\images\dimsum.jpg" alt="dimsum">
+    <div class="menu-details">
+      <h3>dimsum</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="China">
+    <img src="\static\images\pekingduck.jpg" alt="pekingduck">
+    <div class="menu-details">
+      <h3>pekingduck</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">japanesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartjapan: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorejapan: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="China">
+    <img src="\static\images\porkdumlling.jpg" alt="porkdumlling">
+    <div class="menu-details">
+      <h3>porkdumlling</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">chinesespecial: ₹449</span> <button class="add-btn" data-price="japanesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartchina: ₹439</span> <button class="add-btn" data-price="FoodKartjapan: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorechina: ₹419</span> <button class="add-btn" data-price="EatMorejapan: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="China">
+    <img src="\static\images\kungpaochicken.jpg" alt="kungpaochicken">
+    <div class="menu-details">
+      <h3>kungpaochicken</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">chinesespecial: ₹449</span> <button class="add-btn" data-price="chinesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartchina: ₹439</span> <button class="add-btn" data-price="FoodKartchina: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorechina: ₹419</span> <button class="add-btn" data-price="EatMorechina: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="China">
+    <img src="\static\images\sweetandsorsoup.jpg" alt="sweetandsorsoup">
+    <div class="menu-details">
+      <h3>sweetandsorsoup</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">chinesespecial: ₹449</span> <button class="add-btn" data-price="chinesespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">McDonald's: ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartchina: ₹439</span> <button class="add-btn" data-price="FoodKartchina: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMorechina: ₹419</span> <button class="add-btn" data-price="EatMorechina: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Indian">
+    <img src="\static\images\masaladosa.jpg" alt="masaladosa">
+    <div class="menu-details">
+      <h3>masaladosa</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Indiansespecial: ₹449</span> <button class="add-btn" data-price="Indiansespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">Mc restro : ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartindia: ₹439</span> <button class="add-btn" data-price="FoodKartindia: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMoreindia: ₹419</span> <button class="add-btn" data-price="EatMoreindia: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+   <div class="menu-item" data-category="Indian">
+    <img src="\static\images\gulabjamun.jpg" alt="gulabjamun">
+    <div class="menu-details">
+      <h3>gulabjamun</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Indiansespecial: ₹449</span> <button class="add-btn" data-price="Indiansespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">Mc restro : ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartindia: ₹439</span> <button class="add-btn" data-price="FoodKartindia: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMoreindia: ₹419</span> <button class="add-btn" data-price="EatMoreindia: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Indian">
+    <img src="\static\images\dumbiryani.jpg" alt="dumbiryani">
+    <div class="menu-details">
+      <h3>dumbiryani</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Indiansespecial: ₹449</span> <button class="add-btn" data-price="Indiansespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">Mc restro : ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartindia: ₹439</span> <button class="add-btn" data-price="FoodKartindia: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMoreindia: ₹419</span> <button class="add-btn" data-price="EatMoreindia: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-item" data-category="Italian">
+    <img src="\static\images\tiramisu.jpg" alt="tiramisu">
+    <div class="menu-details">
+      <h3>tiramisu</h3>
+      <p>fresh food</p>
+      <div class="prices">
+        <div class="price-row"><span class="price-tag">Indiansespecial: ₹449</span> <button class="add-btn" data-price="Indiansespecial: ₹449">Add</button></div>
+        <div class="price-row"><span class="price-tag">Mc restro : ₹429</span> <button class="add-btn" data-price="McDonald's: ₹429">Add</button></div>
+        <div class="price-row"><span class="price-tag">FoodKartindia: ₹439</span> <button class="add-btn" data-price="FoodKartindia: ₹439">Add</button></div>
+        <div class="price-row"><span class="price-tag">EatMoreindia: ₹419</span> <button class="add-btn" data-price="EatMoreindia: ₹419">Add</button></div>
+      </div>
+    </div>
+  </div>
+ </div>
+
+<footer>
+  © 2025 FoodieZone. Taste Meets Tech.
+</footer>
+
+<script>
+  // Highlight lowest price
+  document.querySelectorAll(".menu-item").forEach(item => {
+    let prices = [...item.querySelectorAll(".price-tag")];
+    let minPrice = Math.min(...prices.map(tag => parseInt(tag.textContent.replace(/[^0-9]/g, ""))));
+    prices.forEach(tag => {
+      if (parseInt(tag.textContent.replace(/[^0-9]/g, "")) === minPrice) {
+        tag.classList.add("best-deal");
+      }
+    });
+  });
+
+  // ✅ Add to Cart (save in localStorage)
+  document.querySelectorAll(".add-btn").forEach(button => {
+    button.addEventListener("click", () => {
+      let dish = button.closest(".menu-details").querySelector("h3").textContent;
+      let vendorPrice = button.getAttribute("data-price"); 
+      let vendor = vendorPrice.split(":")[0].trim();
+      let price = parseInt(vendorPrice.replace(/[^0-9]/g, ""));
+      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      let existing = cart.find(item => item.name === dish && item.vendor === vendor);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name: dish, vendor: vendor, price: price, qty: 1 });
+      }
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      localStorage.setItem("cartTotal", total);
+      alert(`✅ ${dish} (${vendor}: ₹${price}) added to cart!`);
+    });
+  });
+
+  // 🔎 Search & Filter
+  const searchBar = document.getElementById("searchBar");
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  const menuItems = document.querySelectorAll(".menu-item");
+
+  function filterMenu() {
+    const searchText = searchBar.value.toLowerCase();
+    const activeCategory = document.querySelector(".filter-btn.active").dataset.category;
+
+    menuItems.forEach(item => {
+      const name = item.querySelector("h3").textContent.toLowerCase();
+      const category = item.dataset.category;
+
+      let matchSearch = name.includes(searchText);
+      let matchCategory = (activeCategory === "all" || category === activeCategory);
+
+      if (matchSearch && matchCategory) {
+        item.style.display = "";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  }
+
+  searchBar.addEventListener("input", filterMenu);
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      filterMenu();
+    });
+  });
+</script>
+</body>
+</html>

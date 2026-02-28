@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Feedbacks</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background-color: #ff4b2b; color: white; }
+  </style>
+</head>
+<body>
+  <h2>All Feedbacks</h2>
+  <table>
+    <tr>
+      <th>ID</th><th>Name</th><th>Email</th><th>Message</th><th>Date</th>
+    </tr>
+    {% for f in feedbacks %}
+    <tr>
+      <td>{{ f[0] }}</td>
+      <td>{{ f[1] }}</td>
+      <td>{{ f[2] }}</td>
+      <td>{{ f[3] }}</td>
+      <td>{{ f[4] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

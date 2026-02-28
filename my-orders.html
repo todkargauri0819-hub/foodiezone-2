@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Orders - FoodieZone</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff5f0;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #ff6f61;
+    }
+    .orders-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table th, table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    table th {
+      background: #ff6f61;
+      color: white;
+    }
+    .no-orders {
+      text-align: center;
+      color: #777;
+      margin-top: 20px;
+    }
+    .nav-links {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .nav-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6f61;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📦 My Orders</h1>
+
+<div class="orders-container">
+  <div id="ordersList"></div>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">🏠 Home</a>
+  <a href="menu123.html">🍔 Menu</a>
+  <a href="cart.html">🛒 Cart</a>
+  <a href="track-order.html">🔍 Track Order</a>
+</div>
+
+<script>
+  function loadOrders() {
+    let orders = JSON.parse(localStorage.getItem("ordersDetails")) || [];
+
+    if (orders.length === 0) {
+      document.getElementById("ordersList").innerHTML = "<p class='no-orders'>❌ No past orders found.</p>";
+      return;
+    }
+
+    let table = `
+      <table>
+        <tr>
+          <th>Order ID</th>
+          <th>Total Amount</th>
+          <th>Payment Method</th>
+          <th>Card (if used)</th>
+          <th>Status</th>
+        </tr>
+    `;
+
+    orders.forEach(order => {
+      table += `
+        <tr>
+          <td>${order.id}</td>
+          <td>₹${order.total}</td>
+          <td>${order.payment}</td>
+          <td>${order.card || "-"}</td>
+          <td>${order.status || "Pending"}</td>
+        </tr>
+      `;
+    });
+
+    table += "</table>";
+    document.getElementById("ordersList").innerHTML = table;
+  }
+
+  // Automatically reload orders every 1 second to reflect admin changes
+  loadOrders();
+  setInterval(loadOrders, 1000);
+</script>
+
+</body>
+</html>
