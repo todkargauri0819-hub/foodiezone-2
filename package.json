@@ -1,0 +1,27 @@
+{
+  "name": "foodiezone",
+  "version": "1.0.0",
+  "description": "FoodieZone Desktop Application",
+  "main": "main.js",
+  "author": "Your Name",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.foodiezone.app",
+    "productName": "FoodieZone",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  }
+}
